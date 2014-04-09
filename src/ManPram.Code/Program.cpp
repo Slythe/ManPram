@@ -5,6 +5,15 @@ const int greenPin = 3;
 const int bluePin = 5;
 
 
+
+struct colourValues {
+	int redValue;
+	int greenValue;
+	int blueValue;
+} yellow, orange;
+
+
+
 void flashIgnitionStart()
 {
 	for (int i = 0; i < 5; i++) {
@@ -25,75 +34,71 @@ void flashIgnitionStart()
 
 
 
-void moveToYellow(int currentRed, int currentGreen, int currentBlue)
+void defineColours()
 {
 
+	yellow.redValue = 255;
+	yellow.greenValue = 255;
+	yellow.blueValue = 0;
 
-	for (int i = 0; i < 255; i++){
-
-		//values for red and green both need to go to 255
-		currentRed = currentRed++;
-		currentGreen = currentGreen++;
-
-		//value for blue needs to be cycled down to 0
-		currentBlue = currentBlue--;
+	orange.redValue = 255;
+	orange.greenValue = 165;
+	orange.blueValue = 0;
 
 
-		//set the values
-		analogWrite(redPin, constrain(currentRed, 0, 255));
-		analogWrite(greenPin, constrain(currentGreen, 0, 255));
-		analogWrite(bluePin, constrain(currentBlue, 0, 255));
-		
-		delay(10);
-
-		
-	};
-
-	
 }
 
 
-void moveToOrange(int currentRed, int currentGreen, int currentBlue)
+int adjustColourValue(int currentValue, int requiredValue)
 {
-	//255, 165, 0
+
+	if (currentValue > requiredValue){
+		currentValue = currentValue--;
+	}
+	else if (currentValue < requiredValue){
+		currentValue = currentValue++;
+	};
+
+	return currentValue;
+
+}
+
+
+void moveToColour(colourValues colour, int currentRed, int currentGreen, int currentBlue){
+
 
 	for (int i = 0; i < 255; i++){
 
-		//cycle red up to 255
-		currentRed = currentRed++;
 
-		//cycle blue down to 0
-		currentBlue = currentBlue--;
-
-		//cycle green to the correct value
-		if (currentGreen > 165)
-		{
-			currentGreen = currentGreen--;
-		}
-		else
-		{
-			currentGreen = currentGreen++;
-		};
+		//adjust values accordingly
+		currentRed = adjustColourValue(currentRed, colour.redValue);
+		currentGreen = adjustColourValue(currentGreen, colour.greenValue);
+		currentBlue = adjustColourValue(currentBlue, colour.blueValue);
 
 		//set the values
 		analogWrite(redPin, constrain(currentRed, 0, 255));
 		analogWrite(greenPin, constrain(currentGreen, 0, 255));
 		analogWrite(bluePin, constrain(currentBlue, 0, 255));
 
-		//wait a little so you can see the effect
+
+		//wait a little so the effect can be seen
 		delay(10);
 
 	};
 
-}
 
+}
 
 
 void setup()
 {
+
 	Serial.begin(9600);
+	defineColours();
 	flashIgnitionStart();
+	
 }
+
 
 void loop()
 {
@@ -104,11 +109,11 @@ void loop()
 
 	delay(2000);
 
-	moveToYellow(0, 0, 255);
+	moveToColour(yellow, 0, 0, 255);
 
 	delay(2000);
 
-	moveToOrange(255, 255, 0);
+	moveToColour(orange, 255, 255, 0);
 
 	delay(2000);
 
