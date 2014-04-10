@@ -1,21 +1,58 @@
 #include <Arduino.h>
 
+//pins the RGB LED is hooked up to on the Arduino
 const int redPin = 6;
 const int greenPin = 3;
 const int bluePin = 5;
 
 
-
+//structure to hold RGB values for colours
 struct colourValues {
 	int redValue;
 	int greenValue;
 	int blueValue;
-} yellow, orange;
+} yellow, orange, blue, red, green;
+
+
+//current colour of the LED
+colourValues currentColour;
+
+
+
+
+
+
+
+void defineColours()
+{
+
+	red.redValue = 255;
+	red.greenValue = 0;
+	red.blueValue = 0;
+
+	green.redValue = 0;
+	green.greenValue = 255;
+	green.blueValue = 0;
+
+	blue.redValue = 0;
+	blue.greenValue = 0;
+	blue.blueValue = 255;
+
+	yellow.redValue = 255;
+	yellow.greenValue = 255;
+	yellow.blueValue = 0;
+
+	orange.redValue = 255;
+	orange.greenValue = 165;
+	orange.blueValue = 0;
+	
+}
 
 
 
 void flashIgnitionStart()
 {
+
 	for (int i = 0; i < 5; i++) {
 
 		analogWrite(redPin, 0);
@@ -30,23 +67,10 @@ void flashIgnitionStart()
 
 	}
 
-}
-
-
-
-void defineColours()
-{
-
-	yellow.redValue = 255;
-	yellow.greenValue = 255;
-	yellow.blueValue = 0;
-
-	orange.redValue = 255;
-	orange.greenValue = 165;
-	orange.blueValue = 0;
-
+	currentColour = green;
 
 }
+
 
 
 int adjustColourValue(int currentValue, int requiredValue)
@@ -64,28 +88,29 @@ int adjustColourValue(int currentValue, int requiredValue)
 }
 
 
-void moveToColour(colourValues colour, int currentRed, int currentGreen, int currentBlue){
+void moveToColour(colourValues newColour, colourValues previousColour){
 
 
 	for (int i = 0; i < 255; i++){
 
 
 		//adjust values accordingly
-		currentRed = adjustColourValue(currentRed, colour.redValue);
-		currentGreen = adjustColourValue(currentGreen, colour.greenValue);
-		currentBlue = adjustColourValue(currentBlue, colour.blueValue);
+		previousColour.redValue = adjustColourValue(previousColour.redValue, newColour.redValue);
+		previousColour.greenValue = adjustColourValue(previousColour.greenValue, newColour.greenValue);
+		previousColour.blueValue = adjustColourValue(previousColour.blueValue, newColour.blueValue);
 
 		//set the values
-		analogWrite(redPin, constrain(currentRed, 0, 255));
-		analogWrite(greenPin, constrain(currentGreen, 0, 255));
-		analogWrite(bluePin, constrain(currentBlue, 0, 255));
-
-
+		analogWrite(redPin, constrain(previousColour.redValue, 0, 255));
+		analogWrite(greenPin, constrain(previousColour.greenValue, 0, 255));
+		analogWrite(bluePin, constrain(previousColour.blueValue, 0, 255));
+		
 		//wait a little so the effect can be seen
 		delay(10);
 
 	};
 
+	//keep track of the current colour values
+	currentColour = newColour;
 
 }
 
@@ -94,7 +119,9 @@ void setup()
 {
 
 	Serial.begin(9600);
+
 	defineColours();
+
 	flashIgnitionStart();
 	
 }
@@ -107,15 +134,21 @@ void loop()
 	analogWrite(greenPin, 0);
 	analogWrite(bluePin, 255);
 
-	delay(2000);
-
-	moveToColour(yellow, 0, 0, 255);
+	moveToColour(blue, currentColour);
 
 	delay(2000);
 
-	moveToColour(orange, 255, 255, 0);
+	moveToColour(yellow, currentColour);
 
 	delay(2000);
+
+	moveToColour(orange, currentColour);
+
+	delay(2000);
+
+	moveToColour(red, currentColour);
+
+	delay(5000);
 
 
 }
