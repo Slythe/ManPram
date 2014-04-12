@@ -1,5 +1,9 @@
 #include <Arduino.h>
 
+
+//potentiometer pin
+const uint8_t potPin = A0;
+
 //pins the RGB LED is hooked up to on the Arduino
 const int redPin = 6;
 const int greenPin = 3;
@@ -18,8 +22,7 @@ struct colourValues {
 colourValues currentColour;
 
 
-
-
+int lastPotVal = 0;
 
 
 
@@ -50,26 +53,6 @@ void defineColours()
 
 
 
-void flashIgnitionStart()
-{
-
-	for (int i = 0; i < 5; i++) {
-
-		analogWrite(redPin, 0);
-		analogWrite(greenPin, 255);
-		analogWrite(bluePin, 0);
-
-		delay(250);
-
-		analogWrite(greenPin, 0);
-
-		delay(125);
-
-	}
-
-	currentColour = green;
-
-}
 
 
 
@@ -86,6 +69,7 @@ int adjustColourValue(int currentValue, int requiredValue)
 	return currentValue;
 
 }
+
 
 
 void moveToColour(colourValues newColour, colourValues previousColour){
@@ -115,6 +99,32 @@ void moveToColour(colourValues newColour, colourValues previousColour){
 }
 
 
+
+void flashIgnitionStart()
+{
+
+	for (int i = 0; i < 5; i++) {
+
+		analogWrite(redPin, 0);
+		analogWrite(greenPin, 255);
+		analogWrite(bluePin, 0);
+
+		delay(250);
+
+		analogWrite(greenPin, 0);
+
+		delay(125);
+
+	}
+	
+	moveToColour(blue, green);
+
+	currentColour = blue;
+
+}
+
+
+
 void setup()
 {
 
@@ -129,26 +139,21 @@ void setup()
 
 void loop()
 {
+	
+	int potVal = map(analogRead(potPin), 0, 1023, 0, 4);
 
-	analogWrite(redPin, 0);
-	analogWrite(greenPin, 0);
-	analogWrite(bluePin, 255);
 
-	moveToColour(blue, currentColour);
+	if (potVal != lastPotVal)
+	{
 
-	delay(2000);
+		lastPotVal = potVal;
 
-	moveToColour(yellow, currentColour);
+		if (potVal == 0) moveToColour(blue, currentColour);
+		else if (potVal == 1) moveToColour(yellow, currentColour);
+		else if (potVal == 2) moveToColour(orange, currentColour);
+		else moveToColour(red, currentColour);
 
-	delay(2000);
-
-	moveToColour(orange, currentColour);
-
-	delay(2000);
-
-	moveToColour(red, currentColour);
-
-	delay(5000);
+	}
 
 
 }
