@@ -3,6 +3,8 @@
 
 //potentiometer pin
 const uint8_t potPin = A0;
+const uint8_t tempPin = 1;
+
 
 //pins the RGB LED is hooked up to on the Arduino
 const int redPin = 6;
@@ -50,8 +52,6 @@ void defineColours()
 	orange.blueValue = 0;
 	
 }
-
-
 
 
 
@@ -125,6 +125,21 @@ void flashIgnitionStart()
 
 
 
+float readTemprature(){
+
+	int sensorReading = analogRead(1);
+
+	float voltage = sensorReading * 5.0;
+	voltage /= 1024.0;
+
+	float tempC = (voltage - 0.5) * 100;
+
+	return tempC;
+
+}
+
+
+
 void setup()
 {
 
@@ -133,6 +148,7 @@ void setup()
 	defineColours();
 
 	flashIgnitionStart();
+
 	
 }
 
@@ -140,6 +156,8 @@ void setup()
 void loop()
 {
 	
+	
+	//Lights
 	int potVal = map(analogRead(potPin), 0, 1023, 0, 4);
 
 
@@ -153,7 +171,15 @@ void loop()
 		else if (potVal == 2) moveToColour(orange, currentColour);
 		else moveToColour(red, currentColour);
 
-	}
+	};
 
+
+	analogRead(tempPin);
+	delay(10);
+	float tempC = (3.3 * analogRead(tempPin) * 100.0) / 1024;
+
+	Serial.println(tempC);
+
+	delay(1000);
 
 }
