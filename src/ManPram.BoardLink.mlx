@@ -95,7 +95,7 @@
             <device-template-id>Uno</device-template-id>
             <programmer-id>serial</programmer-id>
             <port-name>COM3</port-name>
-            <last-upload>2014-04-08T18:01:24.8102051+08:00</last-upload>
+            <last-upload>2014-04-14T17:29:20.5279575+08:00</last-upload>
             <auto-program>false</auto-program>
             <verify>true</verify>
           </upload>
@@ -125,28 +125,16 @@
   </serial-sources>
   <windows>
     <window>
-      <position left="-1108" top="192" width="733" height="524" state="Normal" />
+      <position left="379" top="147" width="884" height="646" state="Normal" />
       <DockPanel FormatVersion="1.0" DockLeftPortion="0.25" DockRightPortion="220" DockTopPortion="0.25" DockBottomPortion="0.25" ActiveDocumentPane="1" ActivePane="1">
-        <Contents Count="4">
+        <Contents Count="2">
           <Content ID="0" PersistString="VisualizerToolbox" AutoHidePortion="220" IsHidden="False" IsFloat="False" />
-          <Content ID="1" PersistString="Startup" AutoHidePortion="0.25" IsHidden="False" IsFloat="False">
-            <ShowSourceInTitle>true</ShowSourceInTitle>
-            <ShowPortInTitle>false</ShowPortInTitle>
-            <SourceId>-1</SourceId>
-            <TabTitle>Startup</TabTitle>
-          </Content>
-          <Content ID="2" PersistString="SourceManager" AutoHidePortion="0.25" IsHidden="False" IsFloat="False">
-            <ShowSourceInTitle>true</ShowSourceInTitle>
-            <ShowPortInTitle>false</ShowPortInTitle>
-            <SourceId>-1</SourceId>
-            <TabTitle>Connection Manager</TabTitle>
-          </Content>
-          <Content ID="3" PersistString="UploadManager2" AutoHidePortion="0.25" IsHidden="False" IsFloat="False">
+          <Content ID="1" PersistString="UploadManager2" AutoHidePortion="0.25" IsHidden="False" IsFloat="False">
             <ShowSourceInTitle>true</ShowSourceInTitle>
             <ShowPortInTitle>false</ShowPortInTitle>
             <SourceId>1</SourceId>
             <TabTitle>Program Devices</TabTitle>
-            <hide-details>true</hide-details>
+            <hide-details>false</hide-details>
           </Content>
         </Contents>
         <Panes Count="2">
@@ -155,11 +143,9 @@
               <Content ID="0" RefID="0" />
             </Contents>
           </Pane>
-          <Pane ID="1" DockState="Document" ActiveContent="3">
-            <Contents Count="3">
-              <Content ID="0" RefID="3" />
-              <Content ID="1" RefID="2" />
-              <Content ID="2" RefID="1" />
+          <Pane ID="1" DockState="Document" ActiveContent="1">
+            <Contents Count="1">
+              <Content ID="0" RefID="1" />
             </Contents>
           </Pane>
         </Panes>
@@ -169,18 +155,18 @@
               <Pane ID="0" RefID="1" PrevPane="-1" Alignment="Right" Proportion="0.5" />
             </NestedPanes>
           </DockWindow>
-          <DockWindow ID="1" DockState="DockLeft" ZOrderIndex="2">
+          <DockWindow ID="1" DockState="DockLeft" ZOrderIndex="1">
             <NestedPanes Count="0" />
           </DockWindow>
-          <DockWindow ID="2" DockState="DockRight" ZOrderIndex="3">
+          <DockWindow ID="2" DockState="DockRight" ZOrderIndex="2">
             <NestedPanes Count="1">
               <Pane ID="0" RefID="0" PrevPane="-1" Alignment="Bottom" Proportion="0.5" />
             </NestedPanes>
           </DockWindow>
-          <DockWindow ID="3" DockState="DockTop" ZOrderIndex="4">
+          <DockWindow ID="3" DockState="DockTop" ZOrderIndex="3">
             <NestedPanes Count="0" />
           </DockWindow>
-          <DockWindow ID="4" DockState="DockBottom" ZOrderIndex="5">
+          <DockWindow ID="4" DockState="DockBottom" ZOrderIndex="4">
             <NestedPanes Count="0" />
           </DockWindow>
         </DockWindows>
